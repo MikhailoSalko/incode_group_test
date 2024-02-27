@@ -1,14 +1,15 @@
 import css from "./TodoList.module.scss";
 import TodoItem from "../TodoItem/TodoItem";
 import { Todo } from "../../../@types/types";
-import { FC } from "react";
 
-const TodoList: FC<Todo[]> = ({}) => {
+type Props = { todo: Todo[] };
+
+const TodoList = ({ todo }: Props) => {
   return (
     <ul>
-      {/* {todo.map(({ id, todoName, desc }) => (
-        <TodoItem key={id} todoName={todoName} desc={desc} />
-      ))} */}
+      {todo.map(({ id, todoName, desc, status }: Todo) => (
+        <TodoItem key={id} id={id} todoName={todoName} desc={desc} status={status} />
+      ))}
     </ul>
   );
 };
