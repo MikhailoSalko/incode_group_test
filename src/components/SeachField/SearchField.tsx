@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import css from "./SearchField.module.scss";
 
 const SearchField = () => {
   const [searchQuery, setSearchQuery] = useState("");

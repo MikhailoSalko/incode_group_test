@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Todo } from "../@types/types.ts";
 import SearchField from "./components/SeachField/SearchField.tsx";
 import TodoList from "./components/TodoList/TodoList.tsx";
-import Modal from "./components/Modal/Modal.tsx";
+import ModalWindow from "./components/Modal/Modal.tsx";
 
 function App() {
   const [todo, setTodo] = useState<Array<Todo>>([
@@ -13,8 +13,11 @@ function App() {
   const [todoName, setTodoName] = useState("");
   const [isModal, setIsModal] = useState(false);
 
-  const openModal = () => setIsModal(true);
-  const closeModal = () => setIsModal(false);
+  const handleOpenModal = () => setIsModal(true);
+  const handleCloseModal = () => setIsModal(false);
+  const handleAddTodo = (e: FormEvent) => {
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -24,11 +27,17 @@ function App() {
           className="btn btn-primary"
           data-toggle="modal"
           data-target="#myModal"
-          onClick={openModal}>
+          onClick={handleOpenModal}>
           Open modal
         </button>
       )}
-      {isModal && <Modal closeModal={closeModal} />}
+      {isModal && (
+        <ModalWindow
+          show={isModal}
+          handleCloseModal={handleCloseModal}
+          handleAddTodo={handleAddTodo}
+        />
+      )}
       <SearchField />
       <div>
         <div>

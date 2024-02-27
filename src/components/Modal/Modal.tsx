@@ -1,54 +1,51 @@
-type Modal = {
-  closeModal: () => void;
+import { ChangeEvent, FormEvent, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import { Todo } from "../../../@types/types";
+
+type Props = {
+  show: boolean;
+  handleCloseModal: () => void;
+  handleAddTodo: (e: FormEvent) => {};
 };
 
-const Modal = ({ closeModal }: Modal) => {
+const ModalWindow = ({ show, handleCloseModal, handleAddTodo }: Props) => {
+  const [todo, setTodo] = useState<Todo>({ id: "", todoName: "", desc: "", status: "pending" });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTodo((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+  };
   return (
-    <div className="modal" id="myModal">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h4 className="modal-title">Modal Title</h4>
-            <button type="button" className="close" data-dismiss="modal" onClick={closeModal}>
-              &times;
-            </button>
-          </div>
-
-          <div className="modal-body">
-            <div className="form-group">
-              <label htmlFor="title">Title:</label>
-              <input type="text" className="form-control" id="title" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Description:</label>
-              <textarea className="form-control" id="description"></textarea>
-            </div>
-            <div className="form-group">
-              <label htmlFor="status">Status:</label>
-              <select className="form-control" id="status">
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-              onClick={closeModal}>
-              Close
-            </button>
-            <button type="button" className="btn btn-primary">
-              Save
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Modal show={show} onHide={handleCloseModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Modal heading</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="text" name="todoName" placeholder="Write ToDo Name" autoFocus />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label>Example textarea</Form.Label>
+            <Form.Control as="textarea" name="desc" rows={3} />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseModal}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleAddTodo}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
-export default Modal;
+export default ModalWindow;
